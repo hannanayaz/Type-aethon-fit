@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Aethon Fit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</head>
+<body class="bg-[#f8f9fd] dark:bg-[#0e0f14] text-[#191c20] dark:text-[#e3e2e6] min-h-screen flex flex-col font-sans select-none antialiased overflow-x-hidden">
+
+  <!-- Startup Splash Screen (Dynamic Setup Initializer) -->
+  <div id="startup-splash" class="fixed inset-0 z-50 bg-[#0a0a0f] flex flex-col items-center justify-between p-6 text-white transition-opacity duration-700">
+    <div class="w-full flex justify-between items-center pt-2">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-[#1a73e8] flex items-center justify-center text-white font-black text-sm shadow-md">⚡</div>
+        <span class="text-base font-black tracking-wider text-white">Aethon <span class="text-blue-400 font-bold">Fit</span></span>
+      </div>
+      <span class="text-[10px] uppercase font-extrabold tracking-widest text-blue-300 bg-blue-950/60 border border-blue-500/30 px-3 py-1 rounded-full">Aerofit Engine</span>
+    </div>
+
+    <div class="flex flex-col items-center text-center space-y-4 my-auto max-w-sm">
+      <div class="w-48 h-60 rounded-[28px] overflow-hidden border-2 border-white/10 shadow-[0_0_40px_rgba(26,115,232,0.25)] relative">
+        <img src="https://images.unsplash.com/photo-1549476464-37392f717541?w=800&auto=format&fit=crop&q=80" alt="Hercules" class="w-full h-full object-cover filter contrast-125" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-3 left-0 right-0 text-center"><span class="text-[10px] tracking-widest uppercase font-black text-zinc-300">HERACLES • DISCIPLINE</span></div>
+      </div>
+      <div class="space-y-1 px-2">
+        <h2 class="text-base font-black tracking-tight leading-snug text-white">"No man has the right to be an amateur in physical training."</h2>
+        <p class="text-xs text-blue-400 font-bold italic">— Socrates</p>
+      </div>
+    </div>
+
+    <!-- Progressive Setup Loading Bar -->
+    <div class="w-full max-w-xs space-y-2 pb-6 text-center">
+      <div class="w-full h-2 bg-zinc-800 rounded-full overflow-hidden shadow-inner">
+        <div id="splash-progress" class="h-full bg-[var(--app-accent, #1a73e8)] transition-all duration-300 ease-out" style="width: 10%;"></div>
+      </div>
+      <p id="splash-status" class="text-xs font-bold text-zinc-400 font-mono tracking-tight animate-pulse">Initialising the setups...</p>
+    </div>
+  </div>
+
+  <!-- Top App Bar -->
+  <header class="pt-3 pb-3 px-5 bg-[#f8f9fd]/90 dark:bg-[#0e0f14]/90 sticky top-0 z-30 flex justify-between items-center border-b border-zinc-200/60 dark:border-zinc-800/80 backdrop-blur-md">
+    <div id="header-action-container" class="flex items-center space-x-2">
+      <div class="w-8 h-8 rounded-full bg-[#1a73e8] flex items-center justify-center text-white font-black text-sm shadow-sm">⚡</div>
+      <h1 class="text-base font-black text-zinc-900 dark:text-white tracking-widest">Aethon <span class="text-[#1a73e8]">Fit</span></h1>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <button onclick="openStreakCalendarModal()" class="flex items-center space-x-1.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 text-amber-800 dark:text-amber-300 px-3 py-1 rounded-full text-xs font-bold transition m3-spring shadow-sm">
+        <span>🔥</span><span id="streak-counter-pill">0 Days</span>
+      </button>
+      <button onclick="openAccountModal()" id="header-avatar" class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-700 dark:text-zinc-200 m3-spring cursor-pointer">AH</button>
+    </div>
+  </header>
+
+  <!-- Dynamic Content Container -->
+  <main id="app-container" class="flex-1 p-4 max-w-md mx-auto w-full pb-36 overflow-y-auto"></main>
+
+  <div id="modal-container"></div>
+
+  <!-- Floating Navigation Bar -->
+  <div id="bottom-nav-wrapper" class="fixed bottom-3 left-0 right-0 max-w-md mx-auto px-4 z-40 flex items-center justify-center pointer-events-none">
+    <nav id="bottom-nav" class="pointer-events-auto bg-[#1e1f24]/95 dark:bg-[#121316]/95 backdrop-blur-2xl border border-zinc-700/50 dark:border-zinc-800 shadow-[0_10px_35px_rgba(0,0,0,0.25)] rounded-full px-1.5 py-1.5 flex items-center justify-between w-full max-w-xs overflow-hidden transition-all duration-300">
+      <button onclick="navigateTab('today')" id="tab-today" class="m3-floating-tab active flex-1 flex items-center justify-center space-x-1 py-2 rounded-full text-[11px] font-bold transition m3-spring">
+        <span class="text-xs">📊</span><span class="tab-label truncate">Today</span>
+      </button>
+      <button onclick="navigateTab('workout')" id="tab-workout" class="m3-floating-tab flex-1 flex items-center justify-center space-x-1 py-2 rounded-full text-[11px] font-bold transition m3-spring">
+        <span class="text-xs">🏋️</span><span class="tab-label truncate">Fitness</span>
+      </button>
+      <button onclick="navigateTab('library')" id="tab-library" class="m3-floating-tab flex-1 flex items-center justify-center space-x-1 py-2 rounded-full text-[11px] font-bold transition m3-spring">
+        <span class="text-xs">🔍</span><span class="tab-label truncate">Library</span>
+      </button>
+      <button onclick="navigateTab('profile')" id="tab-profile" class="m3-floating-tab flex-1 flex items-center justify-center space-x-1 py-2 rounded-full text-[11px] font-bold transition m3-spring">
+        <span class="text-xs">⚙️</span><span class="tab-label truncate">Settings</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

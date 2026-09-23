@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --m3-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --system-accent: #1a73e8;
+  --system-accent-container: #d2e3fc;
+  --system-accent-text: #041e49;
+}
+
+/* Hide outer window scrollbar across browsers while preserving inner list scrolling */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent double-scroll overflow when viewing the Movement Library */
+body:has(#view-library:not(.hidden)) {
+  overflow-y: hidden !important;
+  height: 100vh;
+}
+
+.m3-spring {
+  transition: transform 0.35s var(--m3-spring), box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+.m3-spring:active {
+  transform: scale(0.92) !important;
+}
+
+.m3-floating-tab {
+  color: #c4c7c5;
+  background-color: transparent;
+  min-width: 0;
+}
+.m3-floating-tab:hover {
+  color: #e3e3e8;
+}
+.m3-floating-tab.active {
+  background-color: #1a73e8;
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.35);
+}
+@media (prefers-color-scheme: dark) {
+  .m3-floating-tab.active {
+    background-color: #1a73e8;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(26, 115, 232, 0.5);
+  }
+}
+
+.anatomy-stage-responsive {
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #eef2f8 100%);
+  border: 1px solid #e1e3ea;
+}
+@media (prefers-color-scheme: dark) {
+  .anatomy-stage-responsive {
+    background: radial-gradient(circle at 50% 35%, #181926 0%, #0c0d14 100%);
+    border: 1px solid #262838;
+  }
+}
+
+.muscle-zone-m3 {
+  fill: #e1e3ea;
+  stroke: #c4c7d0;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  cursor: pointer;
+  transition: fill 0.25s ease, stroke 0.25s ease, filter 0.3s var(--m3-spring);
+}
+@media (prefers-color-scheme: dark) {
+  .muscle-zone-m3 {
+    fill: #222433;
+    stroke: #383b4f;
+  }
+}
+.muscle-zone-m3.selected {
+  fill: #1a73e8 !important;
+  stroke: #041e49 !important;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 10px rgba(26, 115, 232, 0.7));
+}
+
+.m3-bottom-sheet {
+  animation: slideM3Up 0.4s var(--m3-spring) forwards;
+}
+@keyframes slideM3Up {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes ringBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.3); }
+  50% { box-shadow: 0 0 0 16px rgba(26, 115, 232, 0); }
+}
+.timer-pulse-ring {
+  animation: ringBreathe 2s infinite;
+}
